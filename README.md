@@ -1,0 +1,2 @@
+# AndroidSqliteManger
+AndroidSqliteManger

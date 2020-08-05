@@ -87,6 +87,7 @@ bool SqliteManager::ExecSql(const string &sSql, RowData &vData)
     int nRow = 0, nCol = 0;
 
     int rv = sqlite3_get_table(m_db, sSql.c_str(), &pResult, &nRow, &nCol, &errMsg);
+    //cout << "rv=" << rv << endl;
     if(rv != SQLITE_OK)
     {
         if(errMsg != NULL)
@@ -103,7 +104,27 @@ bool SqliteManager::ExecSql(const string &sSql, RowData &vData)
         ColData colData;
         for(int j=0;j<nCol;j++)
         {
-            colData.push_back(make_pair(pResult[j], pResult[nIndex]));
+            //cout << pResult[j] << ":" << pResult[nIndex] << endl;
+            string sColName, sColValue;
+            if(pResult[j] != NULL)
+            {
+                sColName = pResult[j];
+            }
+            else
+            {
+                sColName = "null";
+            }
+
+            if(pResult[nIndex] != NULL)
+            {
+                sColValue = pResult[nIndex];
+            }
+            else
+            {
+                sColValue = "null";
+            }
+            //cout << sColName << ":" << sColValue << endl;
+            colData.push_back(make_pair(sColName, sColValue));
             ++nIndex;
         }
         vData.push_back(colData);
